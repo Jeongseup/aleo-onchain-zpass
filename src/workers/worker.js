@@ -20,6 +20,13 @@ async function localProgramExecution(program, aleoFunction, inputs) {
   const account = new Account();
   programManager.setAccount(account);
 
+  if (aleoFunction === 'sign_vc') {
+    const ludium_account = new Account({
+      privateKey: 'APrivateKey1zkpFo72g7N9iFt3JzzeG8CqsS5doAiXyFvNCgk2oHvjRCzF',
+    });
+    programManager.setAccount(ludium_account);
+  }
+
   const executionResponse = await programManager.run(
     program,
     aleoFunction,

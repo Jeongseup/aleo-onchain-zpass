@@ -32,6 +32,12 @@ function request_new_vc:
     output r2 as UnsignedVerfiableCredential.record;
 
 
+function make_metadata_hash:
+    input r0 as UnsignedVerfiableCredential.record;
+    hash.bhp256 r0.attributes into r1 as field;
+    output r1 as field.private;
+
+
 function sign_vc:
     input r0 as signature.private;
     input r1 as UnsignedVerfiableCredential.record;
@@ -52,6 +58,7 @@ function verify:
     input r0 as String64.private;
     hash.bhp256 r0 into r1 as field;
     async verify self.caller r1 into r2;
+    output r1 as field.private;
     output r2 as ludium_zpass.aleo/verify.future;
 
 finalize verify:
@@ -63,3 +70,11 @@ finalize verify:
     not r3 into r5;
     assert.eq r5 true;
     set true into is_verified[r0];
+
+
+function verify_field:
+    input r0 as signature.private;
+    input r1 as address.private;
+    input r2 as field.private;
+    sign.verify r0 r1 r2 into r3;
+    output r3 as boolean.private;

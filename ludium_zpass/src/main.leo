@@ -45,6 +45,9 @@ program ludium_zpass.aleo {
     // #####################################
     // ###          Issuer(Ludium)         #
     // #####################################
+    transition make_metadata_hash(unsigned_vc: UnsignedVerfiableCredential) -> field {
+        return BHP256::hash_to_field(unsigned_vc.attributes);
+    }
 
     // 루디움은 제출된 VC를 확인 후에 signing을 해줌
     transition sign_vc(sig: signature, unsigned_vc: UnsignedVerfiableCredential) -> VerfiableCredential {
@@ -70,10 +73,10 @@ program ludium_zpass.aleo {
     // ###          VERIFIER               #
     // #####################################
 
-    transition verify(decrypted_metadata: String64) {
+    transition verify(decrypted_metadata: String64) -> field {
         let metadata_hash: field = BHP256::hash_to_field(decrypted_metadata);        
 
-        return then finalize(self.caller, metadata_hash);
+        return metadata_hash then finalize(self.caller, metadata_hash);
     }
 
     finalize verify(addr: address, metadata_hash: field) {
@@ -92,4 +95,10 @@ program ludium_zpass.aleo {
     inline signature_verification(msg_hash: field, sig: signature, issuer: address) -> bool {
         return signature::verify(sig, issuer, msg_hash);
     }
+
+    transition verify_field(s: signature, a: address, v: field) -> bool {
+        return signature::verify(s, a, v);
+    }
+
+    
 }

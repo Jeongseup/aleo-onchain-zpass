@@ -6,12 +6,14 @@ import {
   AleoKeyProvider,
   AleoNetworkClient,
   NetworkRecordProvider,
-} from "@aleohq/sdk";
-import { expose, proxy } from "comlink";
+} from '@aleohq/sdk';
+import { expose, proxy } from 'comlink';
 
 await initThreadPool();
 
 async function localProgramExecution(program, aleoFunction, inputs) {
+  console.log('inputs', inputs);
+
   const programManager = new ProgramManager();
 
   // Create a temporary account for the execution of the program
@@ -22,7 +24,7 @@ async function localProgramExecution(program, aleoFunction, inputs) {
     program,
     aleoFunction,
     inputs,
-    false,
+    false
   );
   return executionResponse.getOutputs();
 }
@@ -32,25 +34,41 @@ async function getPrivateKey() {
   return proxy(key);
 }
 
+async function getAddress(key) {
+  // const account = new Account({
+  //   privateKey: 'APrivateKey1zkp1w8PTxrRgGfAtfKUSq43iQyVbdQHfhGbiNPEg2LVSEXR',
+  // });
+  const account = new Account({
+    privateKey: key,
+  });
+
+  const address = account.address().to_string();
+  console.log('passed address', address);
+
+  return address;
+}
+
 async function deployProgram(program) {
   const keyProvider = new AleoKeyProvider();
   keyProvider.useCache(true);
 
   // Create a record provider that will be used to find records and transaction data for Aleo programs
-  const networkClient = new AleoNetworkClient("https://api.explorer.aleo.org/v1");
+  const networkClient = new AleoNetworkClient(
+    'https://api.explorer.aleo.org/v1'
+  );
 
   // Use existing account with funds
   const account = new Account({
-    privateKey: "user1PrivateKey",
+    privateKey: 'user1PrivateKey',
   });
 
   const recordProvider = new NetworkRecordProvider(account, networkClient);
 
   // Initialize a program manager to talk to the Aleo network with the configured key and record providers
   const programManager = new ProgramManager(
-    "https://api.explorer.aleo.org/v1",
+    'https://api.explorer.aleo.org/v1',
     keyProvider,
-    recordProvider,
+    recordProvider
   );
 
   programManager.setAccount(account);
@@ -68,5 +86,10 @@ async function deployProgram(program) {
   return tx_id;
 }
 
-const workerMethods = { localProgramExecution, getPrivateKey, deployProgram };
+const workerMethods = {
+  localProgramExecution,
+  getPrivateKey,
+  deployProgram,
+  getAddress,
+};
 expose(workerMethods);

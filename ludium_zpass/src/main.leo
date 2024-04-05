@@ -73,32 +73,31 @@ program ludium_zpass.aleo {
     // ###          VERIFIER               #
     // #####################################
 
-    transition verify(decrypted_metadata: String64) -> field {
+    transition verify(decrypted_metadata: String64) {
         let metadata_hash: field = BHP256::hash_to_field(decrypted_metadata);        
 
-        return metadata_hash then finalize(self.caller, metadata_hash);
+        return then finalize(self.caller, metadata_hash);
     }
 
     finalize verify(addr: address, metadata_hash: field) {
         let vc: VerfiableCredential = Mapping::get(vcs, metadata_hash);
 
-        let verified: bool = signature_verification(metadata_hash, vc.sig, vc.issuer);
-
-        let current_verified: bool = Mapping::get_or_use(is_verified, addr, false);
-
-        assert(!verified);
+        let verified: bool = signature_verification(vc.sig, vc.issuer, metadata_hash);
+        assert_eq(verified, true);
 
         // 이후에 사실 이걸 가지고 mapping 하면 퍼블릭하게 verify 한 걸 프로그램에 저장할 수도 있음
         Mapping::set(is_verified, addr, true);
     }
 
-    inline signature_verification(msg_hash: field, sig: signature, issuer: address) -> bool {
+    inline signature_verification(sig: signature, issuer: address, msg_hash: field) -> bool {
         return signature::verify(sig, issuer, msg_hash);
     }
 
+    // #####################################
+    // ###          TEST UTILS             #
+    // #####################################
+
     transition verify_field(s: signature, a: address, v: field) -> bool {
         return signature::verify(s, a, v);
-    }
-
-    
+    }    
 }

@@ -89,18 +89,9 @@ ATTRIBUTES="{
     part1: 133324194421918155921132289162654938981u128
 }"
 
-ATTRIBUTES="{
-    part0: 140152554740597502496524452237299901250u128,
-    part1: 133324194421918155921132289162654938980u128
-}"
-
 leo run "verify" "${ATTRIBUTES}"
 
-# function signature_verification2(msg_hash: field, sig: signature, issuer: address) -> bool {
-MSG_HASH="7008524940045791203999848867183584738587782508703254509438457557080158883755field"
-SIG="sign1gt4a0k69c46xw3rue5k2thwrg59umezvxf0gv9xzag7wtxug35qyevqk422w5evz2xmrcqukmc9r2aeqvfzfq0dpcdl6tw0g8e4txqe4wvk4qf6keyrq0k82kl3lncv97wmk90he4ssfj2kg4qdhthnepka9qj92l3ywpfwe4x2xhpuw88lwqlk6d9cescjc8ac997dh9ctq6vk0r3s"
-ISSUER="aleo17vy26rpdhqx4598y5gp7nvaa9rk7tnvl6ufhvvf4calsrrqdaqyshdsf5z"
-leo run "verify_test" "${MSG_HASH}" "${SIG}" "${ISSUER}"
+
 
 # 뭔가 안되는데 일단 그냥 된다고 치고.. 
 

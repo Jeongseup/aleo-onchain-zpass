@@ -58,7 +58,6 @@ function verify:
     input r0 as String64.private;
     hash.bhp256 r0 into r1 as field;
     async verify self.caller r1 into r2;
-    output r1 as field.private;
     output r2 as ludium_zpass.aleo/verify.future;
 
 finalize verify:
@@ -66,9 +65,7 @@ finalize verify:
     input r1 as field.public;
     get vcs[r1] into r2;
     sign.verify r2.sig r2.issuer r1 into r3;
-    get.or_use is_verified[r0] false into r4;
-    not r3 into r5;
-    assert.eq r5 true;
+    assert.eq r3 true;
     set true into is_verified[r0];
 
 

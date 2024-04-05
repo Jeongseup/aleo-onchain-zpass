@@ -75,3 +75,11 @@ function verify_field:
     input r2 as field.private;
     sign.verify r0 r1 r2 into r3;
     output r3 as boolean.private;
+
+
+function verify_foo:
+    input r0 as signature.private;
+    input r1 as address.private;
+    input r2 as u128.private;
+    sign.verify r0 r1 r2 into r3;
+    output r3 as boolean.private;

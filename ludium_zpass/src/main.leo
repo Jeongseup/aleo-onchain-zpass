@@ -100,4 +100,8 @@ program ludium_zpass.aleo {
     transition verify_field(s: signature, a: address, v: field) -> bool {
         return signature::verify(s, a, v);
     }    
+
+     transition verify_foo(s: signature, a: address, v: u128) -> bool {
+        return signature::verify(s, a, v);
+    }
 }

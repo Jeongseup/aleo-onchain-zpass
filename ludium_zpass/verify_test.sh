@@ -6,8 +6,13 @@ then
     exit
 fi
 
-MSG_HASH="7008524940045791203999848867183584738587782508703254509438457557080158883755field"
-SIG="sign1gt4a0k69c46xw3rue5k2thwrg59umezvxf0gv9xzag7wtxug35qyevqk422w5evz2xmrcqukmc9r2aeqvfzfq0dpcdl6tw0g8e4txqe4wvk4qf6keyrq0k82kl3lncv97wmk90he4ssfj2kg4qdhthnepka9qj92l3ywpfwe4x2xhpuw88lwqlk6d9cescjc8ac997dh9ctq6vk0r3s"
-ISSUER="aleo17vy26rpdhqx4598y5gp7nvaa9rk7tnvl6ufhvvf4calsrrqdaqyshdsf5z"
+#    transition verify_field(s: signature, a: address, v: field) -> bool {
+#        return signature::verify(s, a, v);
+#    }
+
+SIG=sign1qafy4wuc9pqzqhwd5pervqen57nzyap3zc6qf755qt62tahaavpg0stexawrtzg97uhe59gnv3fu55vt4d8ek5vkpy26dh64y7pygqp4wvk4qf6keyrq0k82kl3lncv97wmk90he4ssfj2kg4qdhthnepka9qj92l3ywpfwe4x2xhpuw88lwqlk6d9cescjc8ac997dh9ctq6x9fhmj
+ISSUER=aleo17vy26rpdhqx4598y5gp7nvaa9rk7tnvl6ufhvvf4calsrrqdaqyshdsf5z
+MSG_HASH=7008524940045791203999848867183584738587782508703254509438457557080158883755field
 
 leo run "verify_field" "${SIG}" "${ISSUER}" "${MSG_HASH}"
+

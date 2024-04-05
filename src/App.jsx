@@ -38,7 +38,10 @@ function App() {
   // #####################################
   // ###          Program                #
   // #####################################
-  const [programState, setProgramState] = useState(null);
+  const [programState, setProgramState] = useState([]);
+  const addNewItem = (newItem) => {
+    setProgramState((prevProgramState) => [...prevProgramState, newItem]);
+  };
 
   // #####################################
   // ###          Workflow               #
@@ -95,7 +98,7 @@ function App() {
     const cleanedState = result[1].replace(/\n/g, '');
 
     setExecutingSignVC(false);
-    setProgramState(cleanedState);
+    addNewItem(cleanedState);
     handleOpenModal('Signed on a new VC', cleanedVC);
   }
 
@@ -152,13 +155,13 @@ function App() {
       <div className="relative isolate bg-white h-[100dvh]">
         <main className="mx-auto max-w-screen-2xl py-8 px-8 md:px-24 tall:min-h-[calc(100dvh-128px)]">
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight md:pt-24 text-center">
-            Aleo OnChain zPass Applicatiion For Ludium
+            Ludium OnChain zPass Applicatiion
           </h1>
 
           <Card
             title="ludium_zpass.aleo"
             content={
-              programState
+              programState.length != 0
                 ? programState
                 : 'Here will be replaced with states of ludium_zpass program'
             }
